@@ -22,7 +22,14 @@ void App_FlowField::Start()
 
 void App_FlowField::Update(float deltaTime)
 {
+	//ImGui
 	UpdateImGui();
+
+	//Update grid
+	if (m_GraphEditor.UpdateGraph(m_pGridGraph))
+	{
+
+	}
 }
 
 void App_FlowField::UpdateImGui()
@@ -61,8 +68,8 @@ void App_FlowField::Render(float deltaTime) const
 	m_GraphRenderer.RenderGraph(
 		m_pGridGraph,
 		true,
-		false,
-		false,
+		true,
+		true,
 		false
 	);
 

@@ -23,7 +23,6 @@ public:
 private:
 	float m_TrimWorldSize = 100.f;
 
-
 	//Grid
 	static const int COLUMNS = 10;
 	static const int ROWS = 10;
@@ -33,8 +32,6 @@ private:
 	//Editor and Visualisation
 	Elite::GraphEditor m_GraphEditor{};
 	Elite::GraphRenderer m_GraphRenderer{};
-
-
 };
 
 

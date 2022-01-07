@@ -32,6 +32,6 @@
 *.app
 
 #Temporary folders
-source/TempFiles/*
-source/.vs/*
-bin/*
+_FRAMEWORK/source/TempFiles/*
+_FRAMEWORK/source/.vs/*
+_FRAMEWORK/bin/*

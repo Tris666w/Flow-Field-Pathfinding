@@ -44,6 +44,7 @@ namespace Elite
 		template<class T_NodeType>
 		std::string GetNodeText(T_NodeType* pNode) const;
 		std::string GetNodeText(InfluenceNode* pNode) const;
+		std::string GetNodeText(GridTerrainNode* pNode) const;
 
 		template<class T_ConnectionType>
 		std::string GetConnectionText(T_ConnectionType* pConnection) const;
@@ -192,6 +193,13 @@ namespace Elite
 	{
 		std::stringstream ss;
 		ss << std::fixed << std::setprecision(m_FloatPrintPrecision) << pNode->GetInfluence();
+		return ss.str();
+	}
+
+	inline std::string GraphRenderer::GetNodeText(GridTerrainNode* pNode) const
+	{
+		std::stringstream ss;
+		ss << std::fixed  <<static_cast<int>(pNode->GetTerrainType());
 		return ss.str();
 	}
 

@@ -6,7 +6,7 @@ enum
 };
 
 
-enum class TerrainType : uint_fast8_t
+enum class TerrainType : uint8
 {
 	Ground = 1,
 	Mud = 3,
