@@ -1,0 +1,13 @@
+#version 400
+
+// Input data
+uniform sampler2D _texture;
+in vec2 f_uv;
+in vec4 f_color;
+// Output data
+out vec4 color;
+
+void main(void)
+{
+	color = f_color * texture(_texture, f_uv.st);
+}
