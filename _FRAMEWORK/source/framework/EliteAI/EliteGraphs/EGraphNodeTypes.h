@@ -100,8 +100,12 @@ namespace Elite
 		uint32 GetIntegrationCost()const { return m_IntegrationFieldCost; }
 		void SetIntegrationCost(const uint32 newCost) { m_IntegrationFieldCost = newCost; }
 
+		Vector2 GetDirection()const { return m_Direction; }
+		void SetDirection(const Vector2& newDir) { m_Direction = newDir; }
+
 	private:
 		uint32 m_IntegrationFieldCost = 1;
+		Elite::Vector2 m_Direction = { 0,0 };
 	};
 
 	class NavGraphNode : public GraphNode2D

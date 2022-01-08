@@ -4,7 +4,7 @@
 namespace Elite
 {
 	void GraphRenderer::RenderGraph(GridGraph<FlowFieldNode, GraphConnection>* pGraph, bool renderNodes,
-		bool renderCostFieldCost, bool renderIntegrationCost, bool renderConnections) const
+		bool renderCostFieldCost, bool renderIntegrationCost, bool renderDirections, bool renderConnections) const
 	{
 		for (auto node : pGraph->GetAllActiveNodes())
 		{
@@ -19,8 +19,17 @@ namespace Elite
 
 				int cellSize = pGraph->m_CellSize;
 
-				RenderRectNode(pGraph->GetNodeWorldPos(node), costTxt, integrationTxt, cellSize, GetNodeColor(node));
+				Vector2 worldPos = pGraph->GetNodeWorldPos(node);
+				RenderRectNode(worldPos, costTxt, integrationTxt, cellSize, GetNodeColor(node));
+
+				if (renderDirections)
+				{
+					Vector2 dir = node->GetDirection();
+					DEBUGRENDERER2D->DrawDirection(worldPos, dir, static_cast<float>(cellSize) / 2.f, { 0.f,1.f,0.f }, 0.1f);
+				}
 			}
+
+
 
 			if (renderConnections)
 			{

@@ -19,7 +19,7 @@ void App_FlowField::Start()
 	DEBUGRENDERER2D->GetActiveCamera()->SetZoom(125.f);
 	DEBUGRENDERER2D->GetActiveCamera()->SetCenter(m_TrimWorldSize / 2.f);
 
-	m_pGridGraph = new Elite::GridGraph<Elite::FlowFieldNode, Elite::GraphConnection>(COLUMNS, ROWS, m_SizeCell, false, false, 1.f, 1.5f);
+	m_pGridGraph = new Elite::GridGraph<Elite::FlowFieldNode, Elite::GraphConnection>(COLUMNS, ROWS, m_SizeCell, false, true, 1.f, 1.5f);
 
 	m_EndPathIndex = Elite::randomInt(m_pGridGraph->GetAllNodes().size());
 
@@ -29,10 +29,10 @@ void App_FlowField::Start()
 void App_FlowField::Update(float deltaTime)
 {
 	//INPUT
-	bool const middleMousePressed = INPUTMANAGER->IsMouseButtonUp(Elite::InputMouseButton::eMiddle);
-	if (middleMousePressed)
+	bool const rightMousePressed = INPUTMANAGER->IsMouseButtonUp(Elite::InputMouseButton::eRight);
+	if (rightMousePressed)
 	{
-		Elite::MouseData mouseData = { INPUTMANAGER->GetMouseData(Elite::InputType::eMouseButton, Elite::InputMouseButton::eMiddle) };
+		Elite::MouseData mouseData = { INPUTMANAGER->GetMouseData(Elite::InputType::eMouseButton, Elite::InputMouseButton::eRight) };
 		Elite::Vector2 mousePos = DEBUGRENDERER2D->GetActiveCamera()->ConvertScreenToWorld({ (float)mouseData.X, (float)mouseData.Y });
 
 		//Find closest node to click pos
@@ -69,11 +69,25 @@ void App_FlowField::UpdateImGui()
 		ImGui::Begin("Flow Field Pathfinding", &windowActive, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 		ImGui::PushAllowKeyboardFocus(false);
 
+		//Elements
+		ImGui::Text("CONTROLS");
+		ImGui::Indent();
+		ImGui::Text("LMB: Set terrain");
+		ImGui::Text("RMB: Set target");
+		ImGui::Unindent();
 
 		ImGui::Text("STATS");
 		ImGui::Indent();
 		ImGui::Text("%.3f ms/frame", 1000.0f / ImGui::GetIO().Framerate);
 		ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
+		ImGui::Unindent();
+
+		ImGui::Text("Debug visualization");
+		ImGui::Indent();
+		ImGui::Checkbox("Show cost field", &dbCostFieldCosts);
+		ImGui::Checkbox("Show integration field", &dbIntegrationFieldCosts);
+		ImGui::Checkbox("Show directions", &dbDirections);
+		ImGui::Checkbox("Show connections", &dbConnections);
 		ImGui::Unindent();
 
 		//End
@@ -89,12 +103,13 @@ void App_FlowField::Render(float deltaTime) const
 	m_GraphRenderer.RenderGraph(
 		m_pGridGraph,
 		true,
-		false,
-		true,
-		true
+		dbCostFieldCosts,
+		dbIntegrationFieldCosts,
+		dbDirections,
+		dbConnections
 	);
 
 	//Highlight the target node
-	m_GraphRenderer.HighlightNodesRect(m_pGridGraph, { m_pGridGraph->GetNode(m_EndPathIndex) }, START_NODE_COLOR);
+	m_GraphRenderer.HighlightNodesRect(m_pGridGraph, { m_pGridGraph->GetNode(m_EndPathIndex) }, END_NODE_COLOR);
 
 }

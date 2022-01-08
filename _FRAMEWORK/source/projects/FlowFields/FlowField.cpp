@@ -34,7 +34,7 @@ void FlowField::GenerateIntegrationField(Graph2D pGraph, int endNodeIndex)
 		node->SetIntegrationCost(255);
 	}
 
-	//Set the cost of the end node to 0 and add all its neighbours to the open list
+	//Set the cost of the end node to 0 and add all its neighbors to the open list
 	currentNode->SetIntegrationCost(0);
 
 	for (auto currentConnection : pGraph->GetNodeConnections(currentNode))
@@ -47,26 +47,26 @@ void FlowField::GenerateIntegrationField(Graph2D pGraph, int endNodeIndex)
 	{
 		currentNode = openList[0];
 
-		//Get the lowest cost of all the neighbouring nodes
-		int lowestNeighbouringCost = INT_MAX;
+		//Get the lowest cost of all the neighboring nodes
+		int lowestNeighboringCost = INT_MAX;
 		for (auto currentConnection : pGraph->GetNodeConnections(currentNode))
 		{
-			auto neighbourNode = pGraph->GetNode(currentConnection->GetTo());
+			auto neighborNode = pGraph->GetNode(currentConnection->GetTo());
 
-			int neighbourCost = neighbourNode->GetIntegrationCost();
-			if (lowestNeighbouringCost > neighbourCost)
+			int neighborCost = neighborNode->GetIntegrationCost();
+			if (lowestNeighboringCost > neighborCost)
 			{
-				lowestNeighbouringCost = neighbourCost;
+				lowestNeighboringCost = neighborCost;
 			}
 
-			//Add neighbour to the open list if it isn't on the closed list
+			//Add neighbor to the open list if it isn't on the closed list
 			//This way we don't check the integration cost of nodes twice
-			auto it = std::find(closedList.begin(), closedList.end(), neighbourNode);
+			auto it = std::find(closedList.begin(), closedList.end(), neighborNode);
 			if (it == closedList.end())
 				openList.push_back(pGraph->GetNode(currentConnection->GetTo()));
 		}
 		//Calculate integration cost
-		int newCost = lowestNeighbouringCost + currentNode->GetCostFieldCost();
+		int newCost = lowestNeighboringCost + currentNode->GetCostFieldCost();
 		currentNode->SetIntegrationCost(newCost);
 
 		//Add the current node to the closed list
@@ -77,4 +77,56 @@ void FlowField::GenerateIntegrationField(Graph2D pGraph, int endNodeIndex)
 
 void FlowField::GenerateFlowField(Graph2D pGraph, int endNodeIndex)
 {
+	vector<Elite::FlowFieldNode*> openList;
+	vector<Elite::FlowFieldNode*> closedList;
+	Elite::FlowFieldNode* currentNode = pGraph->GetNode(endNodeIndex);
+
+	for (const auto node : pGraph->GetAllNodes())
+	{
+		node->SetDirection({ 0,0 });
+	}
+
+	for (auto currentConnection : pGraph->GetNodeConnections(currentNode))
+	{
+		openList.push_back(pGraph->GetNode(currentConnection->GetTo()));
+	}
+	closedList.push_back(currentNode);
+
+	while (!openList.empty())
+	{
+		currentNode = openList[0];
+
+		//Get the neighbor with the lowest integration cost
+		int lowestNeighboringCost = INT_MAX;
+		Elite::FlowFieldNode* pClosestNeighbor = nullptr;
+
+		for (auto currentConnection : pGraph->GetNodeConnections(currentNode))
+		{
+			auto neighborNode = pGraph->GetNode(currentConnection->GetTo());
+
+			int neighborCost = neighborNode->GetIntegrationCost();
+			if (lowestNeighboringCost > neighborCost)
+			{
+				lowestNeighboringCost = neighborCost;
+				pClosestNeighbor = neighborNode;
+			}
+
+
+			//Add neighbor to the open list if it isn't on the closed list
+			//This way we don't check the integration cost of nodes twice
+			auto it = std::find(closedList.begin(), closedList.end(), neighborNode);
+			if (it == closedList.end())
+				openList.push_back(pGraph->GetNode(currentConnection->GetTo()));
+		}
+		if (pClosestNeighbor != nullptr)
+		{
+			//Calculate direction
+			Elite::Vector2 dir = pGraph->GetNodeWorldPos(pClosestNeighbor->GetIndex()) - pGraph->GetNodeWorldPos(currentNode->GetIndex());
+			currentNode->SetDirection(dir);
+		}
+
+		//Add the current node to the closed list
+		std::_Erase_remove(openList, currentNode);
+		closedList.push_back(currentNode);
+	}
 }

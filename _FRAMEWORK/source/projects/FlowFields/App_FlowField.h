@@ -26,12 +26,17 @@ private:
 	static const int COLUMNS = 20;
 	static const int ROWS = 10;
 	unsigned int m_SizeCell = 20;
-	Elite::GridGraph<Elite::FlowFieldNode, Elite::GraphConnection>* m_pGridGraph;
+	Elite::GridGraph<Elite::FlowFieldNode, Elite::GraphConnection>* m_pGridGraph{};
 
 	//Editor and Visualisation
 	Elite::GraphEditor m_GraphEditor{};
 	Elite::GraphRenderer m_GraphRenderer{};
 
+	//DebugRendering
+	bool dbCostFieldCosts = false;
+	bool dbIntegrationFieldCosts = false;
+	bool dbConnections = false;
+	bool dbDirections = false;
 
 	//Pathfinding
 	FlowField m_FlowField{};

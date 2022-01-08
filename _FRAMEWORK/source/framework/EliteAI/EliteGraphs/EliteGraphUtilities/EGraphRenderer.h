@@ -17,7 +17,7 @@ namespace Elite
 
 		template<class T_NodeType, class T_ConnectionType>
 		void RenderGraph(IGraph<T_NodeType, T_ConnectionType>* pGraph, bool renderNodes, bool renderConnections, bool renderNodeTxt = true, bool renderConnectionTxt = true) const;
-		void RenderGraph(GridGraph<FlowFieldNode, GraphConnection>* pGraph, bool renderNodes, bool renderCostFieldCost, bool renderIntegrationCost, bool renderConnections) const;
+		void RenderGraph(GridGraph<FlowFieldNode, GraphConnection>* pGraph, bool renderNodes, bool renderCostFieldCost, bool renderIntegrationCost, bool renderDirections, bool renderConnections) const;
 
 		template<class T_NodeType, class T_ConnectionType>
 		void RenderGraph(GridGraph<T_NodeType, T_ConnectionType>* pGraph, bool renderNodes, bool renderNodeTxt, bool renderConnections, bool renderConnectionsCosts) const;
@@ -174,7 +174,7 @@ namespace Elite
 			RenderRectNode(
 				pGraph->GetNodeWorldPos(node),
 				"",
-				pGraph->m_CellSize,
+				static_cast<float>(pGraph->m_CellSize),
 				col,
 				-0.2f
 			);

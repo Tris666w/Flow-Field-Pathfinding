@@ -18,7 +18,6 @@ public:
 private:
 	vector<Elite::Vector2> m_DirectionVector;
 
-
 	void GenerateIntegrationField(Graph2D pGraph, int endNodeIndex);
 	void GenerateFlowField(Graph2D pGraph, int endNodeIndex);
 };
