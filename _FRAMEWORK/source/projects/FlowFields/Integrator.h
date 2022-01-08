@@ -17,10 +17,6 @@ public:
 	Integrator& operator=(Integrator&&) = delete;
 	Integrator(Integrator&&) = delete;
 
-	void GenerateIntegrationField(Graph2D costField, Elite::GridTerrainNode* pStartNode);
-
-	void RenderDebug()const;
-private:
-
+	void GenerateIntegrationField(Graph2D pGraph, int endNodeIndex);
 };
 

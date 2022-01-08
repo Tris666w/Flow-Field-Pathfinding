@@ -18,17 +18,35 @@ void App_FlowField::Start()
 
 	m_pGridGraph = new Elite::GridGraph<Elite::FlowFieldNode, Elite::GraphConnection>(COLUMNS, ROWS, m_SizeCell, false, false, 1.f, 1.5f);
 
+	m_EndPathIndex = Elite::randomInt(m_pGridGraph->GetAllNodes().size());
+
+	m_Integrator.GenerateIntegrationField(m_pGridGraph, m_EndPathIndex);
 }
 
 void App_FlowField::Update(float deltaTime)
 {
+	//INPUT
+	bool const middleMousePressed = INPUTMANAGER->IsMouseButtonUp(Elite::InputMouseButton::eMiddle);
+	if (middleMousePressed)
+	{
+		Elite::MouseData mouseData = { INPUTMANAGER->GetMouseData(Elite::InputType::eMouseButton, Elite::InputMouseButton::eMiddle) };
+		Elite::Vector2 mousePos = DEBUGRENDERER2D->GetActiveCamera()->ConvertScreenToWorld({ (float)mouseData.X, (float)mouseData.Y });
+
+		//Find closest node to click pos
+		int closestNode = m_pGridGraph->GetNodeIdxAtWorldPos(mousePos);
+		m_EndPathIndex = closestNode;
+		m_Integrator.GenerateIntegrationField(m_pGridGraph, m_EndPathIndex);
+
+	}
+
+
 	//ImGui
 	UpdateImGui();
 
 	//Update grid
 	if (m_GraphEditor.UpdateGraph(m_pGridGraph))
 	{
-
+		m_Integrator.GenerateIntegrationField(m_pGridGraph, m_EndPathIndex);
 	}
 }
 
@@ -70,7 +88,7 @@ void App_FlowField::Render(float deltaTime) const
 		true,
 		true,
 		true,
-		false
+		true
 	);
 
 

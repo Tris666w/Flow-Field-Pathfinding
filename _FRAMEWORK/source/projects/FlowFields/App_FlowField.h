@@ -3,11 +3,11 @@
 //-----------------------------------------------------------------
 // Includes & Forward Declarations
 //-----------------------------------------------------------------
+#include "projects/FlowFields/Integrator.h" 
 #include "framework/EliteInterfaces/EIApp.h"
 #include "framework\EliteAI\EliteGraphs\EGridGraph.h"
 #include "framework\EliteAI\EliteGraphs\EliteGraphUtilities\EGraphEditor.h"
 #include "framework\EliteAI\EliteGraphs\EliteGraphUtilities\EGraphRenderer.h"
-
 class NavigationColliderElement;
 
 class App_FlowField final : public IApp
@@ -32,6 +32,11 @@ private:
 	//Editor and Visualisation
 	Elite::GraphEditor m_GraphEditor{};
 	Elite::GraphRenderer m_GraphRenderer{};
+
+
+	//Pathfinding
+	Integrator m_Integrator{};
+	int m_EndPathIndex = invalid_node_index;
 };
 
 
