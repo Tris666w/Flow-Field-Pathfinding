@@ -10,7 +10,7 @@
 
 class NavigationColliderElement;
 
-class App_FlowField final: public IApp
+class App_FlowField final : public IApp
 {
 public:
 	App_FlowField();
@@ -27,7 +27,7 @@ private:
 	static const int COLUMNS = 10;
 	static const int ROWS = 10;
 	unsigned int m_SizeCell = 10;
-	Elite::GridGraph<Elite::GridTerrainNode, Elite::GraphConnection>* m_pGridGraph;
+	Elite::GridGraph<Elite::FlowFieldNode, Elite::GraphConnection>* m_pGridGraph;
 
 	//Editor and Visualisation
 	Elite::GraphEditor m_GraphEditor{};

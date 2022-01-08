@@ -5,7 +5,7 @@
 #include "framework\EliteAI\EliteGraphs\EGridGraph.h"
 #include "framework\EliteAI\EliteGraphs\EGraph2D.h"
 
-namespace Elite 
+namespace Elite
 {
 	class GraphEditor final
 	{
@@ -17,6 +17,7 @@ namespace Elite
 		bool UpdateGraph(Graph2D<T_NodeType, T_ConnectionType>* pGraph);
 
 		bool UpdateGraph(GridGraph<GridTerrainNode, GraphConnection>* pGraph);
+		bool UpdateGraph(GridGraph<FlowFieldNode, GraphConnection>* pGraph);
 
 		template <class T_NodeType, class T_ConnectionType>
 		bool UpdateGraph(GridGraph<T_NodeType, T_ConnectionType>* pGraph);
@@ -28,7 +29,7 @@ namespace Elite
 		Elite::Vector2 m_MousePos;
 		bool m_IsLeftMouseBtnPressed = false;
 	};
-	
+
 	template <class T_NodeType, class T_ConnectionType>
 	inline bool GraphEditor::UpdateGraph(Graph2D<T_NodeType, T_ConnectionType>* pGraph)
 	{

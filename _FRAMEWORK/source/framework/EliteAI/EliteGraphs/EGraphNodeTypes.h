@@ -24,7 +24,7 @@ namespace Elite
 		void SetIndex(int newIdx) { m_Index = newIdx; }
 
 		bool operator==(const GraphNode& rhs) { return m_Index == rhs.m_Index; }
-		
+
 	protected:
 		int m_Index;
 	};
@@ -62,7 +62,8 @@ namespace Elite
 
 		TerrainType GetTerrainType() const { return m_Terrain; }
 		void SetTerrainType(TerrainType terrain) { m_Terrain = terrain; }
-		Elite::Color GetColor() const 
+		int GetCostFieldCost()const { return static_cast<int>(GetTerrainType()); }
+		Elite::Color GetColor() const
 		{
 			switch (m_Terrain)
 			{
@@ -79,20 +80,37 @@ namespace Elite
 				break;
 			}
 		}
-		
+
 
 	protected:
 		TerrainType m_Terrain;
 	};
 
 
+	class FlowFieldNode : public GridTerrainNode
+	{
+	public:
+
+		FlowFieldNode(int index)
+			: GridTerrainNode(index)
+		{
+		}
+		virtual ~FlowFieldNode() = default;
+
+		uint32 GetIntegrationCost()const { return m_IntegrationFieldCost; }
+		void SetIntegrationCost(const uint32 newCost) { m_IntegrationFieldCost = newCost; }
+
+	private:
+		uint32 m_IntegrationFieldCost = 1;
+	};
+
 	class NavGraphNode : public GraphNode2D
 	{
 	public:
 		NavGraphNode(int index, const Vector2& pos = ZeroVector2)
-			: GraphNode2D(index, pos), m_LineIdx(0)	{}
+			: GraphNode2D(index, pos), m_LineIdx(0) {}
 		NavGraphNode(int index, int lineIdx, const Vector2& pos = ZeroVector2)
-			: GraphNode2D(index, pos), m_LineIdx(lineIdx){}
+			: GraphNode2D(index, pos), m_LineIdx(lineIdx) {}
 		virtual ~NavGraphNode() = default;
 		int GetLineIndex() const { return m_LineIdx; };
 	protected:
