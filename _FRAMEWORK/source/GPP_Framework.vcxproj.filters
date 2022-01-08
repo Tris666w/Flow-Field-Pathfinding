@@ -39,7 +39,7 @@
     <ClCompile Include="framework\EliteAI\EliteDecisionMaking\EliteBehaviorTree\EBehaviorTree.cpp" />
     <ClCompile Include="framework\EliteAI\EliteGraphs\EInfluenceMap.cpp" />
     <ClCompile Include="projects\FlowFields\App_FlowField.cpp" />
-    <ClCompile Include="projects\FlowFields\Integrator.cpp" />
+    <ClCompile Include="projects\FlowFields\FlowField.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="projects\App_Selector.h" />
@@ -127,7 +127,7 @@
     <ClInclude Include="framework\EliteAI\EliteDecisionMaking\EliteBehaviorTree\EBehaviorTree.h" />
     <ClInclude Include="framework\EliteAI\EliteGraphs\EInfluenceMap.h" />
     <ClInclude Include="projects\FlowFields\App_FlowField.h" />
-    <ClInclude Include="projects\FlowFields\Integrator.h" />
+    <ClInclude Include="projects\FlowFields\FlowField.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

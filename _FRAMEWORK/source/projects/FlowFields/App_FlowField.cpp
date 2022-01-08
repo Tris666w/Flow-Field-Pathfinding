@@ -13,14 +13,17 @@ App_FlowField::~App_FlowField()
 
 void App_FlowField::Start()
 {
-	DEBUGRENDERER2D->GetActiveCamera()->SetZoom(55.0f);
-	DEBUGRENDERER2D->GetActiveCamera()->SetCenter(Elite::Vector2(m_TrimWorldSize / 1.5f, m_TrimWorldSize / 2));
+
+	m_TrimWorldSize.x = static_cast<float>(COLUMNS) * static_cast<float>(m_SizeCell);
+	m_TrimWorldSize.y = static_cast<float>(ROWS) * static_cast<float>(m_SizeCell);
+	DEBUGRENDERER2D->GetActiveCamera()->SetZoom(125.f);
+	DEBUGRENDERER2D->GetActiveCamera()->SetCenter(m_TrimWorldSize / 2.f);
 
 	m_pGridGraph = new Elite::GridGraph<Elite::FlowFieldNode, Elite::GraphConnection>(COLUMNS, ROWS, m_SizeCell, false, false, 1.f, 1.5f);
 
 	m_EndPathIndex = Elite::randomInt(m_pGridGraph->GetAllNodes().size());
 
-	m_Integrator.GenerateIntegrationField(m_pGridGraph, m_EndPathIndex);
+	m_FlowField.GenerateIntegrationAndFlowField(m_pGridGraph, m_EndPathIndex);
 }
 
 void App_FlowField::Update(float deltaTime)
@@ -35,7 +38,7 @@ void App_FlowField::Update(float deltaTime)
 		//Find closest node to click pos
 		int closestNode = m_pGridGraph->GetNodeIdxAtWorldPos(mousePos);
 		m_EndPathIndex = closestNode;
-		m_Integrator.GenerateIntegrationField(m_pGridGraph, m_EndPathIndex);
+		m_FlowField.GenerateIntegrationAndFlowField(m_pGridGraph, m_EndPathIndex);
 
 	}
 
@@ -46,7 +49,7 @@ void App_FlowField::Update(float deltaTime)
 	//Update grid
 	if (m_GraphEditor.UpdateGraph(m_pGridGraph))
 	{
-		m_Integrator.GenerateIntegrationField(m_pGridGraph, m_EndPathIndex);
+		m_FlowField.GenerateIntegrationAndFlowField(m_pGridGraph, m_EndPathIndex);
 	}
 }
 
@@ -86,10 +89,12 @@ void App_FlowField::Render(float deltaTime) const
 	m_GraphRenderer.RenderGraph(
 		m_pGridGraph,
 		true,
-		true,
+		false,
 		true,
 		true
 	);
 
+	//Highlight the target node
+	m_GraphRenderer.HighlightNodesRect(m_pGridGraph, { m_pGridGraph->GetNode(m_EndPathIndex) }, START_NODE_COLOR);
 
 }

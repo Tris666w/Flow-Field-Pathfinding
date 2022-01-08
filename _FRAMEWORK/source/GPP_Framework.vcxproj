@@ -182,7 +182,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="projects\FlowFields\Integrator.cpp" />
+    <ClCompile Include="projects\FlowFields\FlowField.cpp" />
     <ClCompile Include="projects\FlowFields\App_FlowField.cpp" />
     <ClCompile Include="framework\EliteAI\EliteDecisionMaking\EliteBehaviorTree\EBehaviorTree.cpp" />
     <ClCompile Include="framework\EliteAI\EliteDecisionMaking\EliteFiniteStateMachine\EFiniteStateMachine.cpp" />
@@ -228,7 +228,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="projects\FlowFields\Integrator.h" />
+    <ClInclude Include="projects\FlowFields\FlowField.h" />
     <ClInclude Include="projects\FlowFields\App_FlowField.h" />
     <ClInclude Include="framework\EliteAI\EliteData\EBlackboard.h" />
     <ClInclude Include="framework\EliteAI\EliteDecisionMaking\EDecisionMaking.h" />

@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------
 // Includes & Forward Declarations
 //-----------------------------------------------------------------
-#include "projects/FlowFields/Integrator.h" 
+#include "projects/FlowFields/FlowField.h" 
 #include "framework/EliteInterfaces/EIApp.h"
 #include "framework\EliteAI\EliteGraphs\EGridGraph.h"
 #include "framework\EliteAI\EliteGraphs\EliteGraphUtilities\EGraphEditor.h"
@@ -21,12 +21,11 @@ public:
 	void Render(float deltaTime) const override;
 
 private:
-	float m_TrimWorldSize = 100.f;
-
+	Elite::Vector2 m_TrimWorldSize = { -1,-1 };
 	//Grid
-	static const int COLUMNS = 10;
+	static const int COLUMNS = 20;
 	static const int ROWS = 10;
-	unsigned int m_SizeCell = 10;
+	unsigned int m_SizeCell = 20;
 	Elite::GridGraph<Elite::FlowFieldNode, Elite::GraphConnection>* m_pGridGraph;
 
 	//Editor and Visualisation
@@ -35,7 +34,7 @@ private:
 
 
 	//Pathfinding
-	Integrator m_Integrator{};
+	FlowField m_FlowField{};
 	int m_EndPathIndex = invalid_node_index;
 };
 

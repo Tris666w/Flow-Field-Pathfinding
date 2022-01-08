@@ -1,7 +1,29 @@
 #include "stdafx.h"
-#include "Integrator.h"
+#include "FlowField.h"
 
-void Integrator::GenerateIntegrationField(Elite::GridGraph<Elite::FlowFieldNode, Elite::GraphConnection>* pGraph, int endNodeIndex)
+
+FlowField::FlowField()
+{
+	//All possible flow field directions
+	m_DirectionVector.push_back({ 0,1 });//N
+	m_DirectionVector.push_back({ 0.5,0.5 });//NE
+	m_DirectionVector.push_back({ 1,0 }); //E
+	m_DirectionVector.push_back({ 0.5,-0.5 }); //SE
+	m_DirectionVector.push_back({ 0,-1 });//S
+	m_DirectionVector.push_back({ -0.5,-0.5 });//SW
+	m_DirectionVector.push_back({ -1,0 });//W
+	m_DirectionVector.push_back({ -0.5,0.5 });//NW
+
+	m_DirectionVector.resize(8);
+}
+
+void FlowField::GenerateIntegrationAndFlowField(Graph2D pGraph, int endNodeIndex)
+{
+	GenerateIntegrationField(pGraph, endNodeIndex);
+	GenerateFlowField(pGraph, endNodeIndex);
+}
+
+void FlowField::GenerateIntegrationField(Graph2D pGraph, int endNodeIndex)
 {
 	vector<Elite::FlowFieldNode*> openList;
 	vector<Elite::FlowFieldNode*> closedList;
@@ -51,4 +73,8 @@ void Integrator::GenerateIntegrationField(Elite::GridGraph<Elite::FlowFieldNode,
 		std::_Erase_remove(openList, currentNode);
 		closedList.push_back(currentNode);
 	}
+}
+
+void FlowField::GenerateFlowField(Graph2D pGraph, int endNodeIndex)
+{
 }

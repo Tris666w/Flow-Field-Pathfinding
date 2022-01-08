@@ -24,7 +24,10 @@ namespace Elite
 
 
 		template<class T_NodeType, class T_ConnectionType>
-		void HighlightNodes(GridGraph<T_NodeType, T_ConnectionType>* pGraph, std::vector<T_NodeType*> path, Color col = HIGHLIGHTED_NODE_COLOR) const;
+		void HighlightNodesCircle(GridGraph<T_NodeType, T_ConnectionType>* pGraph, std::vector<T_NodeType*> path, Color col = HIGHLIGHTED_NODE_COLOR) const;
+
+		template<class T_NodeType, class T_ConnectionType>
+		void HighlightNodesRect(GridGraph<T_NodeType, T_ConnectionType>* pGraph, std::vector<T_NodeType*> path, Color col = HIGHLIGHTED_NODE_COLOR) const;
 
 		void SetNumberPrintPrecision(int precision) { m_FloatPrintPrecision = precision; }
 
@@ -146,7 +149,7 @@ namespace Elite
 	}
 
 	template<class T_NodeType, class T_ConnectionType>
-	void GraphRenderer::HighlightNodes(GridGraph<T_NodeType, T_ConnectionType>* pGraph, std::vector<T_NodeType*> path, Color col /*= HIGHLIGHTED_NODE_COLOR*/) const
+	void GraphRenderer::HighlightNodesCircle(GridGraph<T_NodeType, T_ConnectionType>* pGraph, std::vector<T_NodeType*> path, Color col /*= HIGHLIGHTED_NODE_COLOR*/) const
 	{
 		for (auto node : path)
 		{
@@ -155,6 +158,23 @@ namespace Elite
 				pGraph->GetNodeWorldPos(node),
 				"",
 				3.1f,
+				col,
+				-0.2f
+			);
+		}
+	}
+
+	template <class T_NodeType, class T_ConnectionType>
+	void GraphRenderer::HighlightNodesRect(GridGraph<T_NodeType, T_ConnectionType>* pGraph,
+		std::vector<T_NodeType*> path, Color col) const
+	{
+		for (auto node : path)
+		{
+			//Node
+			RenderRectNode(
+				pGraph->GetNodeWorldPos(node),
+				"",
+				pGraph->m_CellSize,
 				col,
 				-0.2f
 			);
