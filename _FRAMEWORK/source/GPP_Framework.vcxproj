@@ -182,6 +182,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="projects\FlowFields\FlowFieldSteering.cpp" />
     <ClCompile Include="projects\FlowFields\FlowField.cpp" />
     <ClCompile Include="projects\FlowFields\App_FlowField.cpp" />
     <ClCompile Include="framework\EliteAI\EliteDecisionMaking\EliteBehaviorTree\EBehaviorTree.cpp" />
@@ -220,6 +221,7 @@
     <ClCompile Include="projects\Shared\Agario\AgarioFood.cpp" />
     <ClCompile Include="projects\Shared\BaseAgent.cpp" />
     <ClCompile Include="projects\Shared\NavigationColliderElement.cpp" />
+    <ClCompile Include="projects\FlowFields\RectObstacle.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug_Exam|Win32'">Create</PrecompiledHeader>
@@ -228,6 +230,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="projects\FlowFields\FlowFieldSteering.h" />
     <ClInclude Include="projects\FlowFields\FlowField.h" />
     <ClInclude Include="projects\FlowFields\App_FlowField.h" />
     <ClInclude Include="framework\EliteAI\EliteData\EBlackboard.h" />
@@ -313,6 +316,7 @@
     <ClInclude Include="projects\Movement\SteeringBehaviors\Steering\SteeringBehaviors.h" />
     <ClInclude Include="projects\Movement\SteeringBehaviors\SteeringHelpers.h" />
     <ClInclude Include="projects\Shared\BaseAgent.h" />
+    <ClInclude Include="projects\FlowFields\RectObstacle.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

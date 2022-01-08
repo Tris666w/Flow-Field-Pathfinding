@@ -8,6 +8,9 @@ namespace Elite
 	{
 		for (auto node : pGraph->GetAllActiveNodes())
 		{
+			int cellSize = pGraph->m_CellSize;
+			Vector2 worldPos = pGraph->GetNodeWorldPos(node);
+
 			if (renderNodes)
 			{
 				std::string costTxt = "";
@@ -17,18 +20,16 @@ namespace Elite
 				if (renderIntegrationCost)
 					integrationTxt = GetIntegrationFieldText(node);
 
-				int cellSize = pGraph->m_CellSize;
 
-				Vector2 worldPos = pGraph->GetNodeWorldPos(node);
 				RenderRectNode(worldPos, costTxt, integrationTxt, cellSize, GetNodeColor(node));
 
-				if (renderDirections)
-				{
-					Vector2 dir = node->GetDirection();
-					DEBUGRENDERER2D->DrawDirection(worldPos, dir, static_cast<float>(cellSize) / 2.f, { 0.f,1.f,0.f }, 0.1f);
-				}
 			}
 
+			if (renderDirections)
+			{
+				Vector2 dir = node->GetDirection();
+				DEBUGRENDERER2D->DrawDirection(worldPos, dir, static_cast<float>(cellSize) / 2.f, { 0.f,1.f,0.f }, 0.1f);
+			}
 
 
 			if (renderConnections)

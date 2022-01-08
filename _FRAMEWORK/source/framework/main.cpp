@@ -66,6 +66,8 @@ int main(int argc, char* argv[])
 		//Initialize Logger
 		peach::Logger::Initialize();
 
+		//Initialize random
+		srand(time(0));
 		//Application Creation
 		IApp* myApp = nullptr;
 

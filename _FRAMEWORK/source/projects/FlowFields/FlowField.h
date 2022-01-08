@@ -5,7 +5,7 @@ using Graph2D = Elite::GridGraph<Elite::FlowFieldNode, Elite::GraphConnection>*;
 class FlowField
 {
 public:
-	FlowField();
+	FlowField() = default;
 	~FlowField() = default;
 
 	void GenerateIntegrationAndFlowField(Graph2D pGraph, int endNodeIndex);
@@ -16,8 +16,6 @@ public:
 	FlowField& operator=(FlowField&&) = delete;
 	FlowField(FlowField&&) = delete;
 private:
-	vector<Elite::Vector2> m_DirectionVector;
-
 	void GenerateIntegrationField(Graph2D pGraph, int endNodeIndex);
 	void GenerateFlowField(Graph2D pGraph, int endNodeIndex);
 };

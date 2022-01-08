@@ -40,6 +40,8 @@
     <ClCompile Include="framework\EliteAI\EliteGraphs\EInfluenceMap.cpp" />
     <ClCompile Include="projects\FlowFields\App_FlowField.cpp" />
     <ClCompile Include="projects\FlowFields\FlowField.cpp" />
+    <ClCompile Include="projects\FlowFields\FlowFieldSteering.cpp" />
+    <ClCompile Include="projects\FlowFields\RectObstacle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="projects\App_Selector.h" />
@@ -128,6 +130,8 @@
     <ClInclude Include="framework\EliteAI\EliteGraphs\EInfluenceMap.h" />
     <ClInclude Include="projects\FlowFields\App_FlowField.h" />
     <ClInclude Include="projects\FlowFields\FlowField.h" />
+    <ClInclude Include="projects\FlowFields\FlowFieldSteering.h" />
+    <ClInclude Include="projects\FlowFields\RectObstacle.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
