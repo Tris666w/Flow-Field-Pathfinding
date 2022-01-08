@@ -13,16 +13,26 @@ namespace Elite
 
 			if (renderNodes)
 			{
-				std::string costTxt = "";
-				std::string integrationTxt = "";
+				std::string costTxt, integrationTxt;
 				if (renderCostFieldCost)
 					costTxt = GetCostFieldText(node);
 				if (renderIntegrationCost)
 					integrationTxt = GetIntegrationFieldText(node);
 
-
 				RenderRectNode(worldPos, costTxt, integrationTxt, cellSize, GetNodeColor(node));
+			}
+			else
+			{
+				std::string costTxt;
+				std::string integrationTxt;
+				if (renderCostFieldCost)
+					costTxt = GetCostFieldText(node);
+				if (renderIntegrationCost)
+					integrationTxt = GetIntegrationFieldText(node);
 
+				const auto stringOffset = Vector2{ -0.5f, 1.f };
+				DEBUGRENDERER2D->DrawString(worldPos + stringOffset, costTxt.c_str());
+				DEBUGRENDERER2D->DrawString(worldPos - stringOffset, integrationTxt.c_str());
 			}
 
 			if (renderDirections)

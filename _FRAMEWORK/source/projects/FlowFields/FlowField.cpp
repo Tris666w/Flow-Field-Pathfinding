@@ -31,6 +31,14 @@ void FlowField::GenerateIntegrationField(Graph2D pGraph, int endNodeIndex)
 	{
 		currentNode = openList[0];
 
+		if (currentNode->GetCostFieldCost() == 255)
+		{
+			currentNode->SetIntegrationCost(255);
+			std::_Erase_remove(openList, currentNode);
+			closedList.push_back(currentNode);
+			continue;
+		}
+
 		//Get the lowest cost of all the neighboring nodes
 		int lowestNeighboringCost = INT_MAX;
 		for (auto currentConnection : pGraph->GetNodeConnections(currentNode))

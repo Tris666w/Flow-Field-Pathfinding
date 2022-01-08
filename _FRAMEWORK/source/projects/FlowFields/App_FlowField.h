@@ -39,7 +39,7 @@ private:
 	//DebugRendering
 	bool dbNodes = false;
 	bool dbCostFieldCosts = false;
-	bool dbIntegrationFieldCosts = false;
+	bool dbIntegrationFieldCosts = true;
 	bool dbDirections = false;
 
 	//Pathfinding
