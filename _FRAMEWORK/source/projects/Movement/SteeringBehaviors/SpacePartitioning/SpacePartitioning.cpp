@@ -65,6 +65,12 @@ void CellSpace::AddAgent(SteeringAgent* agent)
 	m_Cells[index].agents.push_back(agent);
 }
 
+void CellSpace::RemoveAgent(SteeringAgent* agent)
+{
+	int const index{ PositionToIndex(agent->GetPosition()) };
+	std::_Erase_remove(m_Cells[index].agents, agent);
+}
+
 void CellSpace::UpdateAgentCell(SteeringAgent* agent, Elite::Vector2 oldPos)
 {
 	int const previousIndex{ PositionToIndex(oldPos) };
@@ -92,7 +98,7 @@ void CellSpace::RegisterNeighbors(SteeringAgent* agent, float queryRadius)
 		{
 			if (agentPos != currentAgent->GetPosition())
 			{
-				if (Distance(agentPos, currentAgent->GetPosition()) <=  queryRadius)
+				if (Distance(agentPos, currentAgent->GetPosition()) <= queryRadius)
 				{
 					m_Neighbors[m_NrOfNeighbors] = currentAgent;
 					++m_NrOfNeighbors;
@@ -151,6 +157,11 @@ void CellSpace::RenderBoundingBox(const Elite::Vector2& targetPos, float queryRa
 
 	Elite::Polygon rect(vertices);
 	DEBUGRENDERER2D->DrawPolygon(&rect, Elite::Color{ 0.f,0.f,0.f }, 1.f);
+}
+
+void CellSpace::AddPossibleNeighbor()
+{
+	m_Neighbors.push_back(nullptr);
 }
 
 int CellSpace::PositionToIndex(const Elite::Vector2 pos) const

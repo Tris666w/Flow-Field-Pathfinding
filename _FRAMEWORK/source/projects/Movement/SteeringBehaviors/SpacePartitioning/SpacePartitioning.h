@@ -39,6 +39,7 @@ public:
 	CellSpace(float width, float height, int rows, int cols, int maxEntities);
 
 	void AddAgent(SteeringAgent* agent);
+	void RemoveAgent(SteeringAgent* agent);
 	void UpdateAgentCell(SteeringAgent* agent, Elite::Vector2 oldPos);
 
 	void RegisterNeighbors(SteeringAgent* agent, float queryRadius);
@@ -50,6 +51,8 @@ public:
 	void DebugRenderNeighboringCells();
 	static void RenderBoundingBox(const Elite::Vector2& targetPos, float queryRadius);
 
+	void AddPossibleNeighbor();
+	int GetNeighborVectorSize() const { return m_Neighbors.size(); }
 private:
 	// Cells and properties
 	std::vector<Cell> m_Cells;

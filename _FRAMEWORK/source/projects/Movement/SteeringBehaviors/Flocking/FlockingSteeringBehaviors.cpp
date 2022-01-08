@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "FlockingSteeringBehaviors.h"
-#include "TheFlock.h"
+#include "../../../FlowFields/FlowFieldFlock.h"
 #include "../SteeringAgent.h"
 #include "../SteeringHelpers.h"
 
@@ -40,17 +40,17 @@ SteeringOutput Seperation::CalculateSteering(float deltaT, SteeringAgent* pAgent
 		steering.IsValid = false;
 		return steering;
 	}
-	
+
 	Elite::Vector2 sumVector{};
 	for (int i = 0; i < m_pFlock->GetNrOfNeighbors(); i++)
 	{
-		float const distanceToNeighbor= Distance(pAgent->GetPosition(), m_pFlock->GetNeighbors()[i]->GetPosition());
+		float const distanceToNeighbor = Distance(pAgent->GetPosition(), m_pFlock->GetNeighbors()[i]->GetPosition());
 		Elite::Vector2 neighborVector = pAgent->GetPosition() - m_pFlock->GetNeighbors()[i]->GetPosition();
 
 		sumVector += (neighborVector / distanceToNeighbor);
 	}
 	sumVector /= static_cast<float>(m_pFlock->GetNrOfNeighbors());
-	
+
 	SteeringOutput steering = { };
 
 	steering.LinearVelocity = sumVector; //Desired velocity
@@ -76,7 +76,7 @@ SteeringOutput VelocityMatch::CalculateSteering(float deltaT, SteeringAgent* pAg
 		steering.IsValid = false;
 		return steering;
 	}
-	
+
 	SteeringOutput steering = { };
 
 	steering.LinearVelocity = m_pFlock->GetAverageNeighborVelocity(); //Desired velocity

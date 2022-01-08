@@ -1,9 +1,8 @@
 #include "stdafx.h"
 #include "App_FlowField.h"
 
-#include "FlowFieldSteering.h"
-#include "projects/Movement/SteeringBehaviors/SteeringAgent.h"
-#include "projects/FlowFields/RectObstacle.h"
+#include "projects/FlowFields/FlowFieldFlock.h"
+#include "projects/FlowFields/Obstacle/RectObstacle.h"
 
 App_FlowField::App_FlowField()
 {
@@ -11,17 +10,13 @@ App_FlowField::App_FlowField()
 
 App_FlowField::~App_FlowField()
 {
-	for (auto agent : m_pAgentVector)
-	{
-		SAFE_DELETE(agent);
-	}
 	for (auto obstacle : m_pObstacles)
 	{
 		SAFE_DELETE(obstacle);
 	}
 
 	SAFE_DELETE(m_pGridGraph);
-	SAFE_DELETE(m_pFlowFieldBehavior);
+	SAFE_DELETE(m_pFlock);
 }
 
 void App_FlowField::Start()
@@ -34,31 +29,21 @@ void App_FlowField::Start()
 	DEBUGRENDERER2D->GetActiveCamera()->SetZoom(125.f);
 	DEBUGRENDERER2D->GetActiveCamera()->SetCenter(m_TrimWorldSize / 2.f);
 
-
 	//-------------------------------------------------------------------
 	//INITIALIZE GRID , TARGET AND FLOWFIELD
 	//-------------------------------------------------------------------
 	m_pGridGraph = new Elite::GridGraph<Elite::FlowFieldNode, Elite::GraphConnection>(COLUMNS, ROWS, m_SizeCell,
 		false, true, 1.f, 1.5f);
 	GenerateWalls();
+	GenerateMud();
+	GenerateWater();
 	m_EndPathIndex = Elite::randomInt(m_pGridGraph->GetAllNodes().size());
 	m_FlowField.GenerateIntegrationAndFlowField(m_pGridGraph, m_EndPathIndex);
 
-
-	//---------------------------------------------------
-	//INITIALIZE AGENT AND STEERING
-	//---------------------------------------------------
-	m_pFlowFieldBehavior = new FlowFieldSteering(m_pGridGraph);
-	for (int index = 0; index < m_AmountOfAgents; ++index)
-	{
-		auto agent = new SteeringAgent();
-		m_pAgentVector.push_back(agent);
-		agent->SetSteeringBehavior(m_pFlowFieldBehavior);
-		agent->SetMaxLinearSpeed(m_AgentSpeed);
-		agent->SetAutoOrient(true);
-		agent->SetMass(0.1f);
-		agent->SetPosition({ Elite::randomFloat(0,m_TrimWorldSize.x),Elite::randomFloat(0,m_TrimWorldSize.y) });
-	}
+	//----------------------------------
+	//INITIALIZE AGENT
+	//----------------------------------
+	m_pFlock = new FlowFieldFlock(m_pGridGraph, COLUMNS, ROWS, static_cast<float>(m_SizeCell), m_AmountOfAgents, m_AgentSpeed);
 }
 
 void App_FlowField::Update(float deltaTime)
@@ -77,16 +62,6 @@ void App_FlowField::Update(float deltaTime)
 		m_EndPathIndex = closestNode;
 		m_FlowField.GenerateIntegrationAndFlowField(m_pGridGraph, m_EndPathIndex);
 	}
-	bool const rightMousePressed = INPUTMANAGER->IsMouseButtonUp(Elite::InputMouseButton::eRight);
-	if (rightMousePressed)
-	{
-		Elite::MouseData mouseData = { INPUTMANAGER->GetMouseData(Elite::InputType::eMouseButton, Elite::InputMouseButton::eRight) };
-		Elite::Vector2 mousePos = DEBUGRENDERER2D->GetActiveCamera()->ConvertScreenToWorld({ (float)mouseData.X, (float)mouseData.Y });
-
-		//Find closest node to click pos
-		int closestNode = m_pGridGraph->GetNodeIdxAtWorldPos(mousePos);
-		peach::Logger::LogInfo(std::to_string(closestNode));
-	}
 	//----------
 	//IMGUI
 	//----------
@@ -103,11 +78,7 @@ void App_FlowField::Update(float deltaTime)
 	//----------
 	//UPDATE AGENTS
 	//----------
-	for (const auto agent : m_pAgentVector)
-	{
-		agent->Update(deltaTime);
-		agent->TrimToWorld({ 0,0 }, m_TrimWorldSize);
-	}
+	m_pFlock->Update(deltaTime);
 }
 
 void App_FlowField::UpdateImGui()
@@ -148,8 +119,8 @@ void App_FlowField::UpdateImGui()
 		ImGui::Unindent();
 
 		ImGui::Text("Amount of agents");
-		if (ImGui::InputInt("", &m_AmountOfAgents))
-			ChangeAmountOfAgents();
+		if (ImGui::InputInt("", &m_AmountOfAgents, 25))
+			m_pFlock->ChangeAmountOfAgents(m_AmountOfAgents);
 
 		//End
 		ImGui::PopAllowKeyboardFocus();
@@ -189,42 +160,7 @@ void App_FlowField::Render(float deltaTime) const
 
 void App_FlowField::ChangeAmountOfAgents()
 {
-	int vectorSize = static_cast<int>(m_pAgentVector.size());
 
-	if (m_AmountOfAgents == vectorSize || (vectorSize <= 0 && m_AmountOfAgents <= 0))
-		return;
-
-
-	if (m_AmountOfAgents > vectorSize)
-	{
-		while (m_AmountOfAgents > vectorSize)
-		{
-			auto agent = new SteeringAgent();
-			m_pAgentVector.push_back(agent);
-			agent->SetSteeringBehavior(m_pFlowFieldBehavior);
-			agent->SetMaxLinearSpeed(m_AgentSpeed);
-			agent->SetAutoOrient(true);
-			agent->SetMass(0.1f);
-			agent->SetPosition({ Elite::randomFloat(0,m_TrimWorldSize.x),Elite::randomFloat(0,m_TrimWorldSize.y) });
-
-			++vectorSize;
-		}
-		return;
-	}
-
-
-	if (m_AmountOfAgents < vectorSize)
-	{
-		int const agentsDiff = vectorSize - m_AmountOfAgents;
-
-		for (int i = 0; i < agentsDiff; i++)
-		{
-			auto agent = m_pAgentVector.front();
-			std::_Erase_remove(m_pAgentVector, agent);
-			SAFE_DELETE(agent)
-
-		}
-	}
 }
 
 void App_FlowField::GenerateWalls()
@@ -260,6 +196,42 @@ void App_FlowField::GenerateWalls()
 
 }
 
+void App_FlowField::GenerateMud()
+{
+	m_pGridGraph->GetNode(143)->SetTerrainType(TerrainType::Mud);
+	m_pGridGraph->GetNode(123)->SetTerrainType(TerrainType::Mud);
+	m_pGridGraph->GetNode(103)->SetTerrainType(TerrainType::Mud);
+	m_pGridGraph->GetNode(83)->SetTerrainType(TerrainType::Mud);
+	m_pGridGraph->GetNode(63)->SetTerrainType(TerrainType::Mud);
+	m_pGridGraph->GetNode(66)->SetTerrainType(TerrainType::Mud);
+	m_pGridGraph->GetNode(67)->SetTerrainType(TerrainType::Mud);
+	m_pGridGraph->GetNode(68)->SetTerrainType(TerrainType::Mud);
+	m_pGridGraph->GetNode(69)->SetTerrainType(TerrainType::Mud);
+	m_pGridGraph->GetNode(88)->SetTerrainType(TerrainType::Mud);
+	m_pGridGraph->GetNode(104)->SetTerrainType(TerrainType::Mud);
+	m_pGridGraph->GetNode(124)->SetTerrainType(TerrainType::Mud);
+	m_pGridGraph->GetNode(144)->SetTerrainType(TerrainType::Mud);
+
+}
+void App_FlowField::GenerateWater()
+{
+	m_pGridGraph->GetNode(113)->SetTerrainType(TerrainType::Water);
+	m_pGridGraph->GetNode(133)->SetTerrainType(TerrainType::Water);
+	m_pGridGraph->GetNode(132)->SetTerrainType(TerrainType::Water);
+	m_pGridGraph->GetNode(153)->SetTerrainType(TerrainType::Water);
+	m_pGridGraph->GetNode(154)->SetTerrainType(TerrainType::Water);
+	m_pGridGraph->GetNode(155)->SetTerrainType(TerrainType::Water);
+	m_pGridGraph->GetNode(135)->SetTerrainType(TerrainType::Water);
+	m_pGridGraph->GetNode(134)->SetTerrainType(TerrainType::Water);
+	m_pGridGraph->GetNode(114)->SetTerrainType(TerrainType::Water);
+	m_pGridGraph->GetNode(115)->SetTerrainType(TerrainType::Water);
+	m_pGridGraph->GetNode(116)->SetTerrainType(TerrainType::Water);
+	m_pGridGraph->GetNode(117)->SetTerrainType(TerrainType::Water);
+	m_pGridGraph->GetNode(95)->SetTerrainType(TerrainType::Water);
+	m_pGridGraph->GetNode(94)->SetTerrainType(TerrainType::Water);
+	m_pGridGraph->GetNode(93)->SetTerrainType(TerrainType::Water);
+
+}
 void App_FlowField::CreateObstacle(int idx)
 {
 	m_pGridGraph->GetNode(idx)->SetTerrainType(TerrainType::Wall);

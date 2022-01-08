@@ -11,7 +11,7 @@
 
 class RectObstacle;
 class SteeringAgent;
-class FlowFieldSteering;
+class FlowFieldFlock;
 
 class App_FlowField final : public IApp
 {
@@ -47,12 +47,11 @@ private:
 	int m_EndPathIndex = invalid_node_index;
 
 	//Agent
-	vector<SteeringAgent*> m_pAgentVector = {};
-	int m_AmountOfAgents = 50;
-	FlowFieldSteering* m_pFlowFieldBehavior = nullptr;
-	float m_AgentSpeed = 16.0f;
-
 	void ChangeAmountOfAgents();
+	int m_AmountOfAgents = 200;
+	float m_AgentSpeed = 16.0f;
+	FlowFieldFlock* m_pFlock = nullptr;
+
 
 	//C++ make the class non-copyable
 	App_FlowField(const App_FlowField&) = delete;
@@ -61,6 +60,9 @@ private:
 	//Map
 	vector<RectObstacle*> m_pObstacles = {};
 	void GenerateWalls();
+	void GenerateMud();
+	void GenerateWater();
+
 	void CreateObstacle(int idx);
 };
 

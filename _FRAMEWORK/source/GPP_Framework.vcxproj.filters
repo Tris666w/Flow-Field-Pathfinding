@@ -24,7 +24,6 @@
     <ClCompile Include="projects\Movement\SteeringBehaviors\SteeringAgent.cpp" />
     <ClCompile Include="projects\Movement\SteeringBehaviors\CombinedSteering\CombinedSteeringBehaviors.cpp" />
     <ClCompile Include="projects\Movement\SteeringBehaviors\Flocking\FlockingSteeringBehaviors.cpp" />
-    <ClCompile Include="projects\Movement\SteeringBehaviors\Flocking\TheFlock.cpp" />
     <ClCompile Include="projects\Movement\SteeringBehaviors\SpacePartitioning\SpacePartitioning.cpp" />
     <ClCompile Include="framework\EliteAI\EliteGraphs\EliteGraphUtilities\EGraphEditor.cpp" />
     <ClCompile Include="framework\EliteAI\EliteGraphs\EliteGraphUtilities\EGraphRenderer.cpp" />
@@ -38,10 +37,11 @@
     <ClCompile Include="framework\PeachLogger\Logger.cpp" />
     <ClCompile Include="framework\EliteAI\EliteDecisionMaking\EliteBehaviorTree\EBehaviorTree.cpp" />
     <ClCompile Include="framework\EliteAI\EliteGraphs\EInfluenceMap.cpp" />
-    <ClCompile Include="projects\FlowFields\App_FlowField.cpp" />
+    <ClCompile Include="projects\FlowFields\App\App_FlowField.cpp" />
     <ClCompile Include="projects\FlowFields\FlowField.cpp" />
     <ClCompile Include="projects\FlowFields\FlowFieldSteering.cpp" />
-    <ClCompile Include="projects\FlowFields\RectObstacle.cpp" />
+    <ClCompile Include="projects\FlowFields\Obstacle\RectObstacle.cpp" />
+    <ClCompile Include="projects\FlowFields\FlowFieldFlock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="projects\App_Selector.h" />
@@ -99,7 +99,6 @@
     <ClInclude Include="projects\Movement\SteeringBehaviors\SteeringHelpers.h" />
     <ClInclude Include="projects\Movement\SteeringBehaviors\CombinedSteering\CombinedSteeringBehaviors.h" />
     <ClInclude Include="projects\Movement\SteeringBehaviors\Flocking\FlockingSteeringBehaviors.h" />
-    <ClInclude Include="projects\Movement\SteeringBehaviors\Flocking\TheFlock.h" />
     <ClInclude Include="projects\Movement\SteeringBehaviors\SpacePartitioning\SpacePartitioning.h" />
     <ClInclude Include="framework\EliteAI\EliteGraphs\EliteGraphAlgorithms\EEularianPath.h" />
     <ClInclude Include="framework\EliteAI\EliteGraphs\EliteGraphUtilities\EGraphEditor.h" />
@@ -128,10 +127,11 @@
     <ClInclude Include="framework\PeachLogger\Logger.h" />
     <ClInclude Include="framework\EliteAI\EliteDecisionMaking\EliteBehaviorTree\EBehaviorTree.h" />
     <ClInclude Include="framework\EliteAI\EliteGraphs\EInfluenceMap.h" />
-    <ClInclude Include="projects\FlowFields\App_FlowField.h" />
+    <ClInclude Include="projects\FlowFields\App\App_FlowField.h" />
     <ClInclude Include="projects\FlowFields\FlowField.h" />
     <ClInclude Include="projects\FlowFields\FlowFieldSteering.h" />
-    <ClInclude Include="projects\FlowFields\RectObstacle.h" />
+    <ClInclude Include="projects\FlowFields\Obstacle\RectObstacle.h" />
+    <ClInclude Include="projects\FlowFields\FlowFieldFlock.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

@@ -10,7 +10,7 @@
 
 //---------- Registered Applications -----------
 #ifdef ActiveApp_FlowField
-#include "projects/FlowFields/App_FlowField.h"
+#include "projects/FlowFields/App/App_FlowField.h"
 #endif
 
 

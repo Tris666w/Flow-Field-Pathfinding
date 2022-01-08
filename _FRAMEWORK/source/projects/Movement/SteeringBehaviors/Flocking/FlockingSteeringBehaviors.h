@@ -1,19 +1,19 @@
 #pragma once
 #include "projects/Movement/SteeringBehaviors/Steering/SteeringBehaviors.h"
-class Flock;
+class FlowFieldFlock;
 
 //COHESION - FLOCKING
 //*******************
 class Cohesion : public Seek
 {
 public:
-	Cohesion(Flock* pFlock) :m_pFlock(pFlock) {};
+	Cohesion(FlowFieldFlock* pFlock) :m_pFlock(pFlock) {};
 
 	//Cohesion Behavior
 	SteeringOutput CalculateSteering(float deltaT, SteeringAgent* pAgent) override;
 
 private:
-	Flock* m_pFlock = nullptr;
+	FlowFieldFlock* m_pFlock = nullptr;
 };
 
 
@@ -22,13 +22,13 @@ private:
 class Seperation : public Seek
 {
 public:
-	Seperation(Flock* pFlock) :m_pFlock(pFlock) {};
+	Seperation(FlowFieldFlock* pFlock) :m_pFlock(pFlock) {};
 
 	//Seperation Behavior
 	SteeringOutput CalculateSteering(float deltaT, SteeringAgent* pAgent) override;
 
 private:
-	Flock* m_pFlock = nullptr;
+	FlowFieldFlock* m_pFlock = nullptr;
 };
 
 //VELOCITY MATCH - FLOCKING
@@ -36,11 +36,11 @@ private:
 class VelocityMatch : public Seek
 {
 public:
-	VelocityMatch(Flock* pFlock) :m_pFlock(pFlock) {};
+	VelocityMatch(FlowFieldFlock* pFlock) :m_pFlock(pFlock) {};
 
 	//VelocityMatch Behavior
 	SteeringOutput CalculateSteering(float deltaT, SteeringAgent* pAgent) override;
 
 private:
-	Flock* m_pFlock = nullptr;
+	FlowFieldFlock* m_pFlock = nullptr;
 };
