@@ -9,6 +9,11 @@ void FlowField::GenerateIntegrationAndFlowField(Graph2D pGraph, int endNodeIndex
 
 void FlowField::GenerateIntegrationField(Graph2D pGraph, int endNodeIndex)
 {
+	if (endNodeIndex == -1)
+	{
+		peach::Logger::LogError("Selected node is outside the map, please respect the world boundaries");
+		return;
+	}
 	vector<Elite::FlowFieldNode*> openList;
 	vector<Elite::FlowFieldNode*> closedList;
 	Elite::FlowFieldNode* currentNode = pGraph->GetNode(endNodeIndex);

@@ -20,7 +20,7 @@
     <ClCompile Include="projects\Movement\Sandbox\App_Sandbox.cpp" />
     <ClCompile Include="projects\Movement\Sandbox\SandboxAgent.cpp" />
     <ClCompile Include="projects\Movement\SteeringBehaviors\Steering\SteeringBehaviors.cpp" />
-    <ClCompile Include="projects\Movement\SteeringBehaviors\Obstacle.cpp" />
+    <ClCompile Include="projects\Movement\SteeringBehaviors\CircleObstacle.cpp" />
     <ClCompile Include="projects\Movement\SteeringBehaviors\SteeringAgent.cpp" />
     <ClCompile Include="projects\Movement\SteeringBehaviors\CombinedSteering\CombinedSteeringBehaviors.cpp" />
     <ClCompile Include="projects\Movement\SteeringBehaviors\Flocking\FlockingSteeringBehaviors.cpp" />
@@ -40,8 +40,9 @@
     <ClCompile Include="projects\FlowFields\App\App_FlowField.cpp" />
     <ClCompile Include="projects\FlowFields\FlowField.cpp" />
     <ClCompile Include="projects\FlowFields\FlowFieldSteering.cpp" />
-    <ClCompile Include="projects\FlowFields\Obstacle\RectObstacle.cpp" />
+    <ClCompile Include="projects\Movement\SteeringBehaviors\SquareObstacle.cpp" />
     <ClCompile Include="projects\FlowFields\FlowFieldFlock.cpp" />
+    <ClCompile Include="projects\Movement\SteeringBehaviors\ObstacleBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="projects\App_Selector.h" />
@@ -94,7 +95,7 @@
     <ClInclude Include="projects\Movement\Sandbox\App_Sandbox.h" />
     <ClInclude Include="projects\Movement\Sandbox\SandboxAgent.h" />
     <ClInclude Include="projects\Movement\SteeringBehaviors\Steering\SteeringBehaviors.h" />
-    <ClInclude Include="projects\Movement\SteeringBehaviors\Obstacle.h" />
+    <ClInclude Include="projects\Movement\SteeringBehaviors\CircleObstacle.h" />
     <ClInclude Include="projects\Movement\SteeringBehaviors\SteeringAgent.h" />
     <ClInclude Include="projects\Movement\SteeringBehaviors\SteeringHelpers.h" />
     <ClInclude Include="projects\Movement\SteeringBehaviors\CombinedSteering\CombinedSteeringBehaviors.h" />
@@ -130,8 +131,9 @@
     <ClInclude Include="projects\FlowFields\App\App_FlowField.h" />
     <ClInclude Include="projects\FlowFields\FlowField.h" />
     <ClInclude Include="projects\FlowFields\FlowFieldSteering.h" />
-    <ClInclude Include="projects\FlowFields\Obstacle\RectObstacle.h" />
+    <ClInclude Include="projects\Movement\SteeringBehaviors\SquareObstacle.h" />
     <ClInclude Include="projects\FlowFields\FlowFieldFlock.h" />
+    <ClInclude Include="projects\Movement\SteeringBehaviors\ObstacleBase.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

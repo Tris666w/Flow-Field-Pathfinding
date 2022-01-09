@@ -3,21 +3,25 @@
 
 using Graph2D = Elite::GridGraph<Elite::FlowFieldNode, Elite::GraphConnection>*;
 
-class ISteeringBehavior;
-class BlendedSteering;
 class Wander;
-class VelocityMatch;
 class Cohesion;
-class Seperation;
 class CellSpace;
-class FlowFieldSteering;
+class Seperation;
+class ObstacleBase;
 class SteeringAgent;
+class EvadeObstacle;
+class VelocityMatch;
+class BlendedSteering;
+class PrioritySteering;
+class ISteeringBehavior;
+class FlowFieldSteering;
 
 class FlowFieldFlock final
 {
 public:
 	FlowFieldFlock(
 		Graph2D flowField,
+		std::vector<ObstacleBase*>* pObstacles,
 		int nrCols,
 		int nrRows,
 		float cellSize,
@@ -42,6 +46,7 @@ public:
 private:
 	int m_FlockSize = 0;
 	float m_AgentSpeed = 16.f;
+	float m_AgentEvadeRadius = 1.f;
 	vector<SteeringAgent*> m_Agents;
 	Elite::Vector2 m_WorldDimensions = { 150,150 };
 
@@ -57,9 +62,12 @@ private:
 	//----------------------------------
 	Wander* m_pWanderBehavior = nullptr;
 	Cohesion* m_pCohesionBehavior = nullptr;
+	EvadeObstacle* m_pEvadeObstacle = nullptr;
 	Seperation* m_pSeparationBehavior = nullptr;
 	VelocityMatch* m_pVelMatchBehavior = nullptr;
 	BlendedSteering* m_pBlendedSteering = nullptr;
+	BlendedSteering* m_pFlockingBlendedSteering = nullptr;
+	PrioritySteering* m_pPrioritySteering = nullptr;
 	FlowFieldSteering* m_pFlowFieldBehavior = nullptr;
 };
 

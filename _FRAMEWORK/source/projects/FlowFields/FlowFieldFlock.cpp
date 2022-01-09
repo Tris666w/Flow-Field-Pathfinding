@@ -8,29 +8,33 @@
 #include "projects/Movement/SteeringBehaviors/SpacePartitioning/SpacePartitioning.h"
 #include "projects/Movement/SteeringBehaviors/Steering/SteeringBehaviors.h"
 
-FlowFieldFlock::FlowFieldFlock(Graph2D flowField, int nrCols, int nrRows, float cellSize, int flockSize, float agentSpeed)
+FlowFieldFlock::FlowFieldFlock(Graph2D flowField, std::vector<ObstacleBase*>* pObstacles, int nrCols, int nrRows, float cellSize, int flockSize, float agentSpeed)
 	:m_FlockSize(flockSize),
 	m_AgentSpeed(agentSpeed),
-	m_pSeparationBehavior(new Seperation(this)),
-	m_pCohesionBehavior(new Cohesion(this)),
+	m_WorldDimensions(static_cast<float>(nrCols)* cellSize, static_cast<float>(nrRows)* cellSize),
+	m_pFlowFieldGraph(flowField),
+	m_pPartitionedSpace(new CellSpace(m_WorldDimensions.x,
+	                                  m_WorldDimensions.y, nrRows, nrCols, m_FlockSize)),
+	m_pWanderBehavior(new Wander()), m_pCohesionBehavior(new Cohesion(this)),
+	m_pEvadeObstacle(new EvadeObstacle(pObstacles, m_AgentEvadeRadius)), m_pSeparationBehavior(new Seperation(this)),
 	m_pVelMatchBehavior(new VelocityMatch(this)),
-	m_pWanderBehavior(new Wander()),
-	m_pFlowFieldGraph(flowField)
+	m_pFlowFieldBehavior(new FlowFieldSteering(m_pFlowFieldGraph))
 {
-
-
 	//----------------------------------
 	//INITIALIZE STEERING
 	//----------------------------------
-	m_pFlowFieldBehavior = new FlowFieldSteering(m_pFlowFieldGraph);
+	m_pFlockingBlendedSteering = new BlendedSteering({
+		{m_pSeparationBehavior,0.3775f },
+		{m_pCohesionBehavior,0.2375f },
+		{ m_pVelMatchBehavior,0.1975f },
+		{ m_pWanderBehavior,0.1875f } });
+	
 
-	m_pBlendedSteering = new BlendedSteering({ {m_pFlowFieldBehavior,0.5f}, { m_pSeparationBehavior,0.145f }, { m_pCohesionBehavior,0.12f }, {m_pVelMatchBehavior,0.16f},{m_pWanderBehavior,0.75f} });
+	m_pBlendedSteering = new BlendedSteering({ 
+		{m_pFlowFieldBehavior,0.5f},
+		{m_pEvadeObstacle,0.25f},
+		{m_pFlockingBlendedSteering,0.25f}});
 
-	m_WorldDimensions.x = static_cast<float>(nrCols) * cellSize;
-	m_WorldDimensions.y = static_cast<float>(nrRows) * cellSize;
-
-	m_pPartitionedSpace = new CellSpace(m_WorldDimensions.x,
-		m_WorldDimensions.y, nrRows, nrCols, m_FlockSize);
 
 	for (int i = 0; i < m_FlockSize; i++)
 	{
@@ -53,11 +57,13 @@ FlowFieldFlock::~FlowFieldFlock()
 	SAFE_DELETE(m_pWanderBehavior);
 	SAFE_DELETE(m_pCohesionBehavior);
 	SAFE_DELETE(m_pSeparationBehavior);
+	SAFE_DELETE(m_pFlockingBlendedSteering);
 	SAFE_DELETE(m_pVelMatchBehavior);
 	SAFE_DELETE(m_pBlendedSteering);
 	SAFE_DELETE(m_pPartitionedSpace);
 	SAFE_DELETE(m_pFlowFieldBehavior);
-
+	SAFE_DELETE(m_pPrioritySteering);
+	SAFE_DELETE(m_pEvadeObstacle);
 	for (auto pAgent : m_Agents)
 	{
 		SAFE_DELETE(pAgent);
@@ -119,7 +125,7 @@ void FlowFieldFlock::ChangeAmountOfAgents(int newAmount)
 	if (newAmount == vectorSize || (vectorSize <= 0 && newAmount <= 0))
 		return;
 
-
+	//If new agents have to be added
 	if (newAmount > vectorSize)
 	{
 		while (newAmount > vectorSize)
@@ -141,7 +147,7 @@ void FlowFieldFlock::ChangeAmountOfAgents(int newAmount)
 		return;
 	}
 
-
+	//If agents have to be deleted
 	if (newAmount < vectorSize)
 	{
 		int const agentsDiff = vectorSize - newAmount;

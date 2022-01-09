@@ -9,7 +9,7 @@
 #include "framework\EliteAI\EliteGraphs\EliteGraphUtilities\EGraphEditor.h"
 #include "framework\EliteAI\EliteGraphs\EliteGraphUtilities\EGraphRenderer.h"
 
-class RectObstacle;
+class ObstacleBase;
 class SteeringAgent;
 class FlowFieldFlock;
 
@@ -39,7 +39,7 @@ private:
 	//DebugRendering
 	bool dbNodes = false;
 	bool dbCostFieldCosts = false;
-	bool dbIntegrationFieldCosts = true;
+	bool dbIntegrationFieldCosts = false;
 	bool dbDirections = false;
 
 	//Pathfinding
@@ -48,7 +48,13 @@ private:
 
 	//Agent
 	void ChangeAmountOfAgents();
+#ifdef _DEBUG
 	int m_AmountOfAgents = 200;
+#else
+	int m_AmountOfAgents = 500;
+#endif
+
+
 	float m_AgentSpeed = 16.0f;
 	FlowFieldFlock* m_pFlock = nullptr;
 
@@ -58,17 +64,11 @@ private:
 	App_FlowField& operator=(const App_FlowField&) = delete;
 
 	//Map
-	vector<RectObstacle*> m_pObstacles = {};
+	vector<ObstacleBase*> m_pObstacles = {};
 	void GenerateWalls();
 	void GenerateMud();
 	void GenerateWater();
 
 	void CreateObstacle(int idx);
 };
-
-
-
-
-
-
 #endif

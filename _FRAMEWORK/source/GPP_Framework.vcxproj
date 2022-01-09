@@ -182,6 +182,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="projects\Movement\SteeringBehaviors\ObstacleBase.cpp" />
     <ClCompile Include="projects\FlowFields\FlowFieldFlock.cpp" />
     <ClCompile Include="projects\FlowFields\FlowFieldSteering.cpp" />
     <ClCompile Include="projects\FlowFields\FlowField.cpp" />
@@ -213,7 +214,7 @@
     <ClCompile Include="projects\Movement\SteeringBehaviors\CombinedSteering\CombinedSteeringBehaviors.cpp" />
     <ClCompile Include="projects\Movement\SteeringBehaviors\Flocking\FlockingSteeringBehaviors.cpp" />
     <ClCompile Include="projects\Movement\SteeringBehaviors\SpacePartitioning\SpacePartitioning.cpp" />
-    <ClCompile Include="projects\Movement\SteeringBehaviors\Obstacle.cpp" />
+    <ClCompile Include="projects\Movement\SteeringBehaviors\CircleObstacle.cpp" />
     <ClCompile Include="projects\Movement\SteeringBehaviors\SteeringAgent.cpp" />
     <ClCompile Include="projects\Movement\SteeringBehaviors\Steering\SteeringBehaviors.cpp" />
     <ClCompile Include="projects\Shared\Agario\AgarioAgent.cpp" />
@@ -221,7 +222,7 @@
     <ClCompile Include="projects\Shared\Agario\AgarioFood.cpp" />
     <ClCompile Include="projects\Shared\BaseAgent.cpp" />
     <ClCompile Include="projects\Shared\NavigationColliderElement.cpp" />
-    <ClCompile Include="projects\FlowFields\Obstacle\RectObstacle.cpp" />
+    <ClCompile Include="projects\Movement\SteeringBehaviors\SquareObstacle.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug_Exam|Win32'">Create</PrecompiledHeader>
@@ -230,6 +231,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="projects\Movement\SteeringBehaviors\ObstacleBase.h" />
     <ClInclude Include="projects\FlowFields\FlowFieldFlock.h" />
     <ClInclude Include="projects\FlowFields\FlowFieldSteering.h" />
     <ClInclude Include="projects\FlowFields\FlowField.h" />
@@ -311,12 +313,12 @@
     <ClInclude Include="projects\Movement\Sandbox\App_Sandbox.h" />
     <ClInclude Include="projects\Movement\Sandbox\SandboxAgent.h" />
     <ClInclude Include="projects\App_Selector.h" />
-    <ClInclude Include="projects\Movement\SteeringBehaviors\Obstacle.h" />
+    <ClInclude Include="projects\Movement\SteeringBehaviors\CircleObstacle.h" />
     <ClInclude Include="projects\Movement\SteeringBehaviors\SteeringAgent.h" />
     <ClInclude Include="projects\Movement\SteeringBehaviors\Steering\SteeringBehaviors.h" />
     <ClInclude Include="projects\Movement\SteeringBehaviors\SteeringHelpers.h" />
     <ClInclude Include="projects\Shared\BaseAgent.h" />
-    <ClInclude Include="projects\FlowFields\Obstacle\RectObstacle.h" />
+    <ClInclude Include="projects\Movement\SteeringBehaviors\SquareObstacle.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

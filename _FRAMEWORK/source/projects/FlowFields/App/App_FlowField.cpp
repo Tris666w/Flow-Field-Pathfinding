@@ -2,7 +2,7 @@
 #include "App_FlowField.h"
 
 #include "projects/FlowFields/FlowFieldFlock.h"
-#include "projects/FlowFields/Obstacle/RectObstacle.h"
+#include "projects/Movement/SteeringBehaviors/SquareObstacle.h"
 
 App_FlowField::App_FlowField()
 {
@@ -14,7 +14,6 @@ App_FlowField::~App_FlowField()
 	{
 		SAFE_DELETE(obstacle);
 	}
-
 	SAFE_DELETE(m_pGridGraph);
 	SAFE_DELETE(m_pFlock);
 }
@@ -43,7 +42,8 @@ void App_FlowField::Start()
 	//----------------------------------
 	//INITIALIZE AGENT
 	//----------------------------------
-	m_pFlock = new FlowFieldFlock(m_pGridGraph, COLUMNS, ROWS, static_cast<float>(m_SizeCell), m_AmountOfAgents, m_AgentSpeed);
+	m_pFlock = new FlowFieldFlock(m_pGridGraph,&m_pObstacles, COLUMNS, ROWS,
+		static_cast<float>(m_SizeCell), m_AmountOfAgents, m_AgentSpeed);
 }
 
 void App_FlowField::Update(float deltaTime)
@@ -66,15 +66,7 @@ void App_FlowField::Update(float deltaTime)
 	//IMGUI
 	//----------
 	UpdateImGui();
-
-	//----------
-	//UPDATE GRID
-	//----------
-	if (m_GraphEditor.UpdateGraph(m_pGridGraph))
-	{
-		m_FlowField.GenerateIntegrationAndFlowField(m_pGridGraph, m_EndPathIndex);
-	}
-
+	 
 	//----------
 	//UPDATE AGENTS
 	//----------
@@ -154,7 +146,10 @@ void App_FlowField::Render(float deltaTime) const
 	);
 
 	//Highlight the target node
-	m_GraphRenderer.HighlightNodesRect(m_pGridGraph, { m_pGridGraph->GetNode(m_EndPathIndex) }, END_NODE_COLOR);
+	if (m_EndPathIndex != -1)
+	{
+		m_GraphRenderer.HighlightNodesRect(m_pGridGraph, { m_pGridGraph->GetNode(m_EndPathIndex) }, END_NODE_COLOR);
+	}
 
 }
 
@@ -236,7 +231,6 @@ void App_FlowField::CreateObstacle(int idx)
 {
 	m_pGridGraph->GetNode(idx)->SetTerrainType(TerrainType::Wall);
 	auto pos = m_pGridGraph->GetNodeWorldPos(idx);
-	Elite::Vector2 dimension = { static_cast<float>(m_SizeCell) ,static_cast<float>(m_SizeCell) };
-	auto obstacle = new RectObstacle(pos, dimension);
+	auto obstacle = new SquareObstacle(pos, static_cast<float>(m_SizeCell));
 	m_pObstacles.push_back(obstacle);
 }

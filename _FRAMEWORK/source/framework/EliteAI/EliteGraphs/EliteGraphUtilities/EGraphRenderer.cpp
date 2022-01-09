@@ -19,7 +19,7 @@ namespace Elite
 				if (renderIntegrationCost)
 					integrationTxt = GetIntegrationFieldText(node);
 
-				RenderRectNode(worldPos, costTxt, integrationTxt, cellSize, GetNodeColor(node));
+				RenderRectNode(worldPos, costTxt, integrationTxt, static_cast<float>(cellSize), GetNodeColor(node));
 			}
 			else
 			{

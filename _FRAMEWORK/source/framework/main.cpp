@@ -67,7 +67,7 @@ int main(int argc, char* argv[])
 		peach::Logger::Initialize();
 
 		//Initialize random
-		srand(time(0));
+		srand(static_cast<unsigned int>(GetTickCount64()));
 		//Application Creation
 		IApp* myApp = nullptr;
 

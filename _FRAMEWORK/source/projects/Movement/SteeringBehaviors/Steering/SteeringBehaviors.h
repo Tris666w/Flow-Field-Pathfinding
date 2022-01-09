@@ -12,7 +12,7 @@
 //-----------------------------------------------------------------
 #include "../SteeringHelpers.h"
 class SteeringAgent;
-class Obstacle;
+class ObstacleBase;
 
 #pragma region **ISTEERINGBEHAVIOR** (BASE)
 class ISteeringBehavior
@@ -140,5 +140,3 @@ protected:
 	float m_EvadeRadius = 40.f;
 };
 #endif
-
-
