@@ -27,18 +27,39 @@
 
 ## Types-of-fields
 
+ <img align="right" src="Readme_src/Cost-field.png">
+
 ### Cost-field
 <p>This field contains the <b>go-to</b> costs of each node. These costs are dependant on the type of terrain that is on the node.
   The cost is an 8-bit integer between [1-255], with [1-254] being traversible terrain and [255] not traversible. </p>
+ <br>
+ <br>
+ <br>
+ <br>
+ 
+ <img align="right" src="Readme_src/Integration-field.png">
  
  ### Integration-field
 <p>The integration field assigns new costs to each cell. The target cell always has a cost of 0. Starting from this cell, we check every other cell. For every cell, we check the  neighbors and remember the lowest neighboring score. We add this score with the cost field score of the current cell and this is our final cost.</p>
+ <br>
+ <br>
+ 
+ <img align="right" src="Readme_src/Flow-field.png">
+ 
  
 ### Flow-field
 <p> The flow field (also known as direction map) contains all the direction that should be followed by the agents. This is calculated by checking all neighbors of every cell and  calculating the direction from the current cell to the neighbor with the lowest integration cost.</p>
-  
+ <br>
+ <br>
+
 ## Simple-steering
-<p>Agent steering is rather easy to implement. In the steering behavior we check in which cell the agent resides. We set the steering velocity to the direction of the cell and     scale it to the agent speed. </p>
+<img align="right" src="Readme_src/SimpleSteering.gif" width=400 height=200>
+ <br>
+ <br>
+<p align="left">Agent steering is rather easy to implement. In the steering behavior we check in which cell the agent resides. We set the steering velocity to the direction of the cell and scale it to the agent speed. </p>
+ <br>
+ <br>
+ <br>
 
 ## Flocking
 <p>To make the steering look more natural, we can add flocking to the agents. This way the agents react to each other. The flocking behavior consists of multiple steering behaviors.</p>
@@ -61,6 +82,10 @@
 # Result
 <p>With everything combined, we have a cheap and efficient alternative to using cost-heavy pathfinding like A* on every agent. This is how the result looks.</p>
 
+<p align="center">
+<img src="Readme_src/Result.gif" width=800 height=400>
+  </p>
+  
 # Conclusion
 <p>This is a rather basic implementation of flow field pathfinding, but the possibilities are endless. Flow fields are already used in different types of simulation (originally fluid simulations, hence <b>flow</b> field) and in generative art. 
 The generating of the flow field can also be customized. We can use different types of simplifield pathfinding algorithms to generate the maps and can use flags in the integration and flow field (very useful for games) </p>
