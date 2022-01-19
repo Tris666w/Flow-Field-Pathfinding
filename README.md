@@ -1,5 +1,5 @@
 <h1 align="center"> Flow Field Pathfinding </h1>
-<p align="center">Generate flow field to use in steering large crowds of agents</p>
+<p align="center"><b>Generate flow field to use in steering large crowds of agents</b></p>
 
 ## Table of Contents
 - [Introduction](#Introduction)
